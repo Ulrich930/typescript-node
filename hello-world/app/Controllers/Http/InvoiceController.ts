@@ -146,18 +146,28 @@ export default class InvoiceController {
       ],
     };
 
-    // Use getBuffer instead of download
-    // Create a promise to handle the asynchronous nature
-    const pdfKitDocument = pdfMake.createPdf(docDefinition);
-    let pdfBuffer: Buffer | null = null;
+    try {
+      const buffer = await this.generatePdfBuffer(docDefinition);
 
-    pdfKitDocument.getBuffer((buffer) => {
-      pdfBuffer = Buffer.from(buffer);
-      
-      // Set response headers to indicate a file download
       response.header('Content-Type', 'application/pdf');
       response.header('Content-Disposition', 'attachment; filename=file.pdf');
+      response.send(buffer);
+    } catch (error) {
+      console.error('Error during PDF generation:', error);
+      response.status(500).send('An error occurred while generating the PDF.');
+    }
+  }
+
+  private generatePdfBuffer(docDefinition: any): Promise<Buffer> {
+    return new Promise((resolve, reject) => {
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+      pdfDocGenerator.getBuffer((buffer) => {
+        if (buffer) {
+          resolve(Buffer.from(buffer));
+        } else {
+          reject(new Error('Failed to generate PDF buffer'));
+        }
+      });
     });
-    response.send(pdfBuffer)
   }
 }
