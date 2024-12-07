@@ -4,8 +4,11 @@ import PDFDocument from 'pdfkit';
 import path from 'path';
 import fs from 'fs';
 
-// Définir vfs correctement
-//pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
+(<any>pdfMake).addVirtualFileSystem(pdfFonts);
+
 
 export default class InvoiceController {
   public async generate({ request, response }: HttpContextContract) {
@@ -29,12 +32,9 @@ export default class InvoiceController {
     // Retourner le PDF généré
     return response.download(pdfPath);
   }
-  
 
 
-
-
-    public async generateInvoice({ response }: HttpContextContract) {
+  public async generateInvoice({ response }: HttpContextContract) {
       // Create a new PDF document
       const doc = new PDFDocument({
         size: 'A4',
@@ -133,5 +133,31 @@ export default class InvoiceController {
       
       return response.download(pdfPath);
     }
-}
+  
+  public async invoice({ response }: HttpContextContract) {
+    
+  }
 
+  public async pdf({ response }: HttpContextContract) {
+    const docDefinition = {
+      content: [
+        'First paragraph',
+        'Another paragraph, this time a little bit longer to ensure this line will be divided into at least two lines.',
+      ],
+    };
+
+    // Use getBuffer instead of download
+    // Create a promise to handle the asynchronous nature
+    const pdfKitDocument = pdfMake.createPdf(docDefinition);
+    let pdfBuffer: Buffer | null = null;
+
+    pdfKitDocument.getBuffer((buffer) => {
+      pdfBuffer = Buffer.from(buffer);
+      
+      // Set response headers to indicate a file download
+      response.header('Content-Type', 'application/pdf');
+      response.header('Content-Disposition', 'attachment; filename=file.pdf');
+    });
+    response.send(pdfBuffer)
+  }
+}

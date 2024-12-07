@@ -1,6 +1,11 @@
 import PDFDocument from 'pdfkit';
 import path from 'path';
 import fs from 'fs';
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
+(<any>pdfMake).addVirtualFileSystem(pdfFonts);
+
 
 export default class GenerateInvoiceService {
   public static generatePDF1(invoice, products) {

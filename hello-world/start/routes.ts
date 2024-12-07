@@ -20,9 +20,10 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
+/*Route.get('/', async () => {
   return { hello: 'world' }
-})
+})*/
 
+Route.get('/', "InvoiceController.pdf")
 Route.post('/generate-invoice', "InvoiceController.generate")
 Route.post('/generate', "InvoiceController.generateInvoice")
