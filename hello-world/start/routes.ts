@@ -25,3 +25,4 @@ Route.get('/', async () => {
 })
 
 Route.post('/generate-invoice', "InvoiceController.generate")
+Route.post('/generate', "InvoiceController.generateInvoice")

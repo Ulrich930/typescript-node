@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 
 export default class GenerateInvoiceService {
-  public static generatePDF(invoice, products) {
+  public static generatePDF1(invoice, products) {
     const doc = new PDFDocument({ margin: 50 });
 
     // Définir le chemin où enregistrer le PDF
@@ -89,6 +89,87 @@ export default class GenerateInvoiceService {
 
     // Finalisation du document PDF
     doc.end();
+
+    // Retourner le chemin du PDF généré
+    return pdfPath;
+  }
+  
+  public static generatePDF(invoice, products2) {
+    // Créer un nouveau document PDF
+    const doc = new PDFDocument({ size: 'A4', margin: 30 })
+
+    // Définir le chemin où enregistrer le PDF
+    const pdfPath = path.join(__dirname, '../../public/invoices/devis-' + invoice.id + '.pdf');
+    const stream = fs.createWriteStream(pdfPath);
+
+    // Lier le flux de PDF au fichier
+    doc.pipe(stream);
+
+
+    // --- En-tête ---
+    doc.fontSize(16).text('SMARTCONGO SARLU', { align: 'center', underline: true })
+    doc.fontSize(10).text('129 Bis Avenue de l’école, Quartier Brikin, Ngaliema', { align: 'center' })
+    doc.text('Kinshasa - République Démocratique du Congo', { align: 'center' })
+    doc.text('N° TVA : A1918495A | services@smartcongo.com | www.smartcongo.com', { align: 'center' })
+    doc.moveDown()
+
+    doc.fontSize(12).text(`Devis N° : Proforma`, 50, 150)
+    doc.text(`Date du devis : 14/08/2024`, 50, 170)
+
+    doc.moveDown()
+
+    // --- Tableau des produits ---
+    doc.fontSize(10)
+    doc.text('Produits/Services', 50, 220)
+    const tableStartY = 250
+
+    // En-tête de la table
+    doc.font('Helvetica-Bold')
+    const tableHeaders = ['Code Produit', 'Désignation', 'Quantité', 'Prix Unit. HT', 'Total HT']
+    const columnWidths = [100, 150, 70, 80, 80]
+    let x = 50
+
+    tableHeaders.forEach((header, i) => {
+      doc.text(header, x, tableStartY)
+      x += columnWidths[i]
+    })
+
+    // Contenu de la table
+    doc.font('Helvetica')
+    const products = [
+      { code: '000599', description: 'Batterie Lithium BYD Flex 5.0 kWh/48V', qty: 3, unitPrice: 2090, total: 6270 },
+      { code: '000600', description: 'Panneau solaire GoSolar 450V', qty: 7, unitPrice: 240, total: 1680 },
+      { code: '000601', description: 'Regulateur de charge BlueSolar MPPT 150/70', qty: 1, unitPrice: 699, total: 699 },
+      // Ajoutez le reste des produits...
+    ]
+
+    let y = tableStartY + 20
+    products.forEach((product) => {
+      x = 50
+      doc.text(product.code, x, y, { width: columnWidths[0], ellipsis: true })
+      x += columnWidths[0]
+      doc.text(product.description, x, y, { width: columnWidths[1], ellipsis: true })
+      x += columnWidths[1]
+      doc.text(product.qty.toString(), x, y, { width: columnWidths[2], ellipsis: true })
+      x += columnWidths[2]
+      doc.text(product.unitPrice.toFixed(2), x, y, { width: columnWidths[3], ellipsis: true })
+      x += columnWidths[3]
+      doc.text(product.total.toFixed(2), x, y, { width: columnWidths[4], ellipsis: true })
+      y += 20
+    })
+
+    // Total général
+    doc.text('Total : 13 587.44 USD', 400, y + 30, { align: 'right' })
+
+    // --- Pied de page ---
+    doc.fontSize(10)
+    doc.text('Coordonnées bancaires :', 50, y + 70)
+    doc.text('SMARTCONGO SARLU | Banque : EquityBCDC | Compte N° : 00011050377200024765485', 50, y + 90)
+
+    doc.text('Signature expéditeur :', 50, y + 120)
+
+    // Fin et sauvegarde du document
+    doc.end()
 
     // Retourner le chemin du PDF généré
     return pdfPath;
