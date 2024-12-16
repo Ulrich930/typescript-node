@@ -3,6 +3,9 @@ import GenerateInvoiceService from 'App/Services/GenerateInvoiceService';
 import PDFDocument from 'pdfkit';
 import path from 'path';
 import fs from 'fs';
+import PdfPrinter from 'pdfmake'
+import InvoiceGenerator from '../../Services/invoiceService'
+import { sampleInvoiceData } from '../../Services/invoiceData'
 
 import pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -139,16 +142,42 @@ export default class InvoiceController {
   }
 
   public async pdf({ response }: HttpContextContract) {
-    const docDefinition = {
+    /*var docDefinition = {
       content: [
-        'First paragraph',
-        'Another paragraph, this time a little bit longer to ensure this line will be divided into at least two lines.',
+        { text: 'This is a header', style: 'header' },
+        'No styling here, this is a standard paragraph',
+        { text: 'Another text', style: 'anotherStyle' },
+        { text: 'Multiple styles applied', style: [ 'header', 'anotherStyle' ] }
       ],
-    };
+    
+      styles: {
+        header: {
+          fontSize: 22,
+          bold: true
+        },
+        anotherStyle: {
+          italics: true,
+          alignment: 'right'
+        }
+      }
+    };*/
+    const fonts = {
+      Roboto: {
+        normal: 'public/fonts/roboto/Roboto-Regular.ttf',
+        bold: 'public/fonts/roboto/Roboto-Medium.ttf',
+        italics: 'public/fonts/roboto/Roboto-Italic.ttf',
+        bolditalics: 'public/fonts/roboto/Roboto-MediumItalic.ttf'
+      }
+    }
+
+    //const printer = new PdfPrinter(fonts)
+    const generator = new InvoiceGenerator(sampleInvoiceData)
+    const docDefinition = generator.generateDefinition()
 
     try {
       const buffer = await this.generatePdfBuffer(docDefinition);
-
+      //const buffer = printer.createPdfKitDocument(docDefinition)
+      console.log(buffer)
       response.header('Content-Type', 'application/pdf');
       response.header('Content-Disposition', 'attachment; filename=file.pdf');
       response.send(buffer);
@@ -170,4 +199,39 @@ export default class InvoiceController {
       });
     });
   }
+
+  /*public async pdf({ response }: HttpContextContract) {
+    const fonts = {
+      Roboto: {
+        normal: 'public/fonts/roboto/Roboto-Regular.ttf',
+        bold: 'public/fonts/roboto/Roboto-Medium.ttf',
+        italics: 'public/fonts/roboto/Roboto-Italic.ttf',
+        bolditalics: 'public/fonts/roboto/Roboto-MediumItalic.ttf'
+      }
+    }
+
+    const printer = new PdfPrinter(fonts)
+    const generator = new InvoiceGenerator(sampleInvoiceData)
+    const docDefinition = generator.generateDefinition()
+
+    const pdfDoc = printer.createPdfKitDocument(docDefinition)
+    const chunks: Buffer[] = [] // Explicitly type the array as Buffer[]
+
+    pdfDoc.on('data', chunk => chunks.push(chunk))
+    pdfDoc.on('error', error => console.error('PDF generation error:', error))
+    pdfDoc.on('end', () => {
+        const pdfBuffer = Buffer.concat(chunks)
+
+        console.log('PDF buffer generated, size:', pdfBuffer.length)
+        pdfBuffer.write('../../../public/invoices/devis-2.pdf')
+        response.header('Content-Type', 'application/pdf')
+        response.header('Content-Disposition', 'attachment; filename=devis.pdf')
+        response.download('../../../public/invoices/devis-2.pdf');
+        response.send(pdfBuffer)
+    })
+
+    pdfDoc.end()
+}*/
+
+
 }
