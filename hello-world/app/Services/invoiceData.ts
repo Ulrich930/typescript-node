@@ -258,6 +258,216 @@ export interface InvoiceItem {
         totalTTC: 1680.00
       },
       {
+        code: '000600',
+        description: 'Panneau solaire GoSolar 450V',
+        quantity: 7,
+        tva: '-',
+        priceHT: 240.00,
+        priceTTC: 240.00,
+        totalHT: 1680.00,
+        totalTTC: 1680.00
+      },
+      {
+        code: '000601',
+        description: 'Regulateur de charge BlueSolar MPPT 150/70',
+        quantity: 1,
+        tva: '-',
+        priceHT: 699.00,
+        priceTTC: 699.00,
+        totalHT: 699.00,
+        totalTTC: 699.00
+      },
+      {
+        code: '000599',
+        description: 'Batterie Lithium BYD Flex 5.0 KWh/48V',
+        quantity: 3,
+        tva: '-',
+        priceHT: 2090.00,
+        priceTTC: 2090.00,
+        totalHT: 6270.00,
+        totalTTC: 6270.00
+      },
+      {
+        code: '000600',
+        description: 'Panneau solaire GoSolar 450V',
+        quantity: 7,
+        tva: '-',
+        priceHT: 240.00,
+        priceTTC: 240.00,
+        totalHT: 1680.00,
+        totalTTC: 1680.00
+      },
+      {
+        code: '000601',
+        description: 'Regulateur de charge BlueSolar MPPT 150/70',
+        quantity: 1,
+        tva: '-',
+        priceHT: 699.00,
+        priceTTC: 699.00,
+        totalHT: 699.00,
+        totalTTC: 699.00
+      },
+      {
+        code: '000599',
+        description: 'Batterie Lithium BYD Flex 5.0 KWh/48V',
+        quantity: 3,
+        tva: '-',
+        priceHT: 2090.00,
+        priceTTC: 2090.00,
+        totalHT: 6270.00,
+        totalTTC: 6270.00
+      },
+      {
+        code: '000600',
+        description: 'Panneau solaire GoSolar 450V',
+        quantity: 7,
+        tva: '-',
+        priceHT: 240.00,
+        priceTTC: 240.00,
+        totalHT: 1680.00,
+        totalTTC: 1680.00
+      },
+      {
+        code: '000600',
+        description: 'Panneau solaire GoSolar 450V',
+        quantity: 7,
+        tva: '-',
+        priceHT: 240.00,
+        priceTTC: 240.00,
+        totalHT: 1680.00,
+        totalTTC: 1680.00
+      },
+      {
+        code: '000601',
+        description: 'Regulateur de charge BlueSolar MPPT 150/70',
+        quantity: 1,
+        tva: '-',
+        priceHT: 699.00,
+        priceTTC: 699.00,
+        totalHT: 699.00,
+        totalTTC: 699.00
+      },
+      {
+        code: '000599',
+        description: 'Batterie Lithium BYD Flex 5.0 KWh/48V',
+        quantity: 3,
+        tva: '-',
+        priceHT: 2090.00,
+        priceTTC: 2090.00,
+        totalHT: 6270.00,
+        totalTTC: 6270.00
+      },
+      {
+        code: '000600',
+        description: 'Panneau solaire GoSolar 450V',
+        quantity: 7,
+        tva: '-',
+        priceHT: 240.00,
+        priceTTC: 240.00,
+        totalHT: 1680.00,
+        totalTTC: 1680.00
+      },
+      {
+        code: '000601',
+        description: 'Regulateur de charge BlueSolar MPPT 150/70',
+        quantity: 1,
+        tva: '-',
+        priceHT: 699.00,
+        priceTTC: 699.00,
+        totalHT: 699.00,
+        totalTTC: 699.00
+      },
+      {
+        code: '000599',
+        description: 'Batterie Lithium BYD Flex 5.0 KWh/48V',
+        quantity: 3,
+        tva: '-',
+        priceHT: 2090.00,
+        priceTTC: 2090.00,
+        totalHT: 6270.00,
+        totalTTC: 6270.00
+      },
+      {
+        code: '000600',
+        description: 'Panneau solaire GoSolar 450V',
+        quantity: 7,
+        tva: '-',
+        priceHT: 240.00,
+        priceTTC: 240.00,
+        totalHT: 1680.00,
+        totalTTC: 1680.00
+      },
+      {
+        code: '000600',
+        description: 'Panneau solaire GoSolar 450V',
+        quantity: 7,
+        tva: '-',
+        priceHT: 240.00,
+        priceTTC: 240.00,
+        totalHT: 1680.00,
+        totalTTC: 1680.00
+      },
+      {
+        code: '000601',
+        description: 'Regulateur de charge BlueSolar MPPT 150/70',
+        quantity: 1,
+        tva: '-',
+        priceHT: 699.00,
+        priceTTC: 699.00,
+        totalHT: 699.00,
+        totalTTC: 699.00
+      },
+      {
+        code: '000599',
+        description: 'Batterie Lithium BYD Flex 5.0 KWh/48V',
+        quantity: 3,
+        tva: '-',
+        priceHT: 2090.00,
+        priceTTC: 2090.00,
+        totalHT: 6270.00,
+        totalTTC: 6270.00
+      },
+      {
+        code: '000600',
+        description: 'Panneau solaire GoSolar 450V',
+        quantity: 7,
+        tva: '-',
+        priceHT: 240.00,
+        priceTTC: 240.00,
+        totalHT: 1680.00,
+        totalTTC: 1680.00
+      },
+      {
+        code: '000601',
+        description: 'Regulateur de charge BlueSolar MPPT 150/70',
+        quantity: 1,
+        tva: '-',
+        priceHT: 699.00,
+        priceTTC: 699.00,
+        totalHT: 699.00,
+        totalTTC: 699.00
+      },
+      {
+        code: '000599',
+        description: 'Batterie Lithium BYD Flex 5.0 KWh/48V',
+        quantity: 3,
+        tva: '-',
+        priceHT: 2090.00,
+        priceTTC: 2090.00,
+        totalHT: 6270.00,
+        totalTTC: 6270.00
+      },
+      {
+        code: '000600',
+        description: 'Panneau solaire GoSolar 450V',
+        quantity: 7,
+        tva: '-',
+        priceHT: 240.00,
+        priceTTC: 240.00,
+        totalHT: 1680.00,
+        totalTTC: 1680.00
+      },
+      {
         code: '000601',
         description: 'Regulateur de charge BlueSolar MPPT 150/70',
         quantity: 1,

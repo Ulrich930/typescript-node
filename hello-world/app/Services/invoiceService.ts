@@ -2,6 +2,7 @@ import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { InvoiceData } from './invoiceData'
 import * as fs from 'fs'
 import * as path from 'path'
+import { width } from 'pdfkit/js/page';
 
 export default class InvoiceGenerator {
   private data: InvoiceData
@@ -20,6 +21,11 @@ export default class InvoiceGenerator {
 
   private getLogoBase64(): string {
     const logoPath = path.join(process.cwd(), 'public', 'logo.png')
+    const logoBase64 = fs.readFileSync(logoPath).toString('base64')
+    return `data:image/png;base64,${logoBase64}`
+  }
+  private getSignaBase64(): string {
+    const logoPath = path.join(process.cwd(), 'public', 'signature.png')
     const logoBase64 = fs.readFileSync(logoPath).toString('base64')
     return `data:image/png;base64,${logoBase64}`
   }
@@ -53,7 +59,7 @@ export default class InvoiceGenerator {
   public generateDefinition(): TDocumentDefinitions {
     return {
         pageSize: 'A4',
-        pageMargins: [40, 40, 40, 40],
+        pageMargins: [40, 60, 40, 100],
         content: [
             {
                 columns: [
@@ -204,13 +210,52 @@ export default class InvoiceGenerator {
                         ],
                         alignment: 'right',
                     },
+                    
                 ],
+                margin:[0, 30, 0, 0]
             },
-            { text: '\n\n',
-            margin: 40
-             },
+            /*{ text: '', pageBreak: 'before' },*/
+             /*{
+                stack: [
+                  {
+                    text: 'Thank you for your business!',
+                    style: 'thankYou',
+                    margin: [0, 20, 0, 40]
+                  },
+                  {
+                    columns: [
+                      {
+                        width: '50%',
+                        stack: [
+                          { text: 'Bank Details', style: 'sectionHeader' },
+                          
+                        ]
+                      },
+                      {
+                        width: '50%',
+                        stack: [
+                          { text: 'Signature', style: 'sectionHeader' },
+                          {
+                            canvas: [
+                              {
+                                type: 'line',
+                                x1: 0,
+                                y1: 40,
+                                x2: 200,
+                                y2: 40,
+                                lineWidth: 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                pageBreak: 'beforeEven'
+              }*/
             
-            {
+            /*{
                 table: 
                 {
                     widths: ['50%', '50%'],
@@ -243,23 +288,68 @@ export default class InvoiceGenerator {
                 },
                 layout: 'noBorders',
                 //relativePosition: { x: 40, y: 400 },
-            }
+            }*/
         ],
-        footer: (currentPage, pageCount) => {
-            return {
+        header: (currentPage, pageCount, pageSize) => {
+            if (currentPage > 1) {
+              return {
                 columns: [
-                    {
-                        width: '50%',
-                        text: `Date de génération : 19/08/2024 16:03`
-                    },
-                    {
-                        width: '50%',
-                        text: `Page ${currentPage} of ${pageCount}`,
-                        alignment: 'right'
-                    }
-                ],
-                margin: [40, 10, 40, 0]
-            };
+                  {
+                    width: '50%',
+                    text: `Date de génération : 19/08/2024 16:03`,
+                    margin: [40, 10, 0, 0]
+                  },
+                  {
+                    width: '50%',
+                    text: `Page ${currentPage} of ${pageCount}`,
+                    alignment: 'right',
+                    margin: [0, 10, 40, 0]
+                  }
+                ]
+              };
+            }
+            return {text: ''};
+          },
+        footer: (currentPage, pageCount) => {
+        if (currentPage === pageCount) { 
+        return { 
+                table: 
+                {
+                    widths: ['30%', '40%',  '50%'],
+                    body: [
+                        [
+                            
+                            {
+                                stack: [
+                                    
+                                    { text: 'Coordonnées bancaires', bold: true, margin: [0, 10, 0, 5] },
+                                    { text: 'Company: SMARTCONGO SARLU' },
+                                    { text: 'Bank: EquityBCDC' },
+                                    { text: 'Account Number: 00011050377200024765485' }
+                                ]
+                            },
+                            {
+                                stack: [
+                                    { text: ''}
+                                ]
+                            },
+                            {
+                                stack: [
+                                    { text: 'Signature expéditeur', bold: true, margin: [0, 10, 30, 5] },
+                                    { image: this.getSignaBase64(), width: 100 }, // Adjust as needed for your signature image
+                                ],
+                                alignment: 'left'
+                            }
+                        ],
+                        
+                    ],
+                },
+                layout: 'noBorders',
+                margin: [40, -30, 40, 0],
+                pageBreak: 'afterEven',
+                
+                }
+         }
         },
         styles: {
             tableHeader: {
